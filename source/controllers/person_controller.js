@@ -128,11 +128,11 @@ const updateRecord =async(req,res) =>{
   }
   const bulkUpdateRecords = async (req,res) =>{
     try {
-        const resp = await Person.update(req.body,{
-            where:{
-                id:req.body.id
-            }
-        })
+        const resp = await Person.bulkCreate(req.body, {
+            upsertKeys: [{ id: req.body.id }],
+      
+            updateOnDuplicate: ["firstName","lastName","email"],
+          })
         res.status(202).json({
             status:appConst.status.success,
             response:resp,
@@ -148,5 +148,24 @@ const updateRecord =async(req,res) =>{
         
     }
   }
+  const bulkDeleteRecords = async (req, res) => {
+    try {
+      const resp=await Person.destroy({where:{
+  
+      }})
+      res.status(202).json({
+        status:appConst.status.success,
+        response:resp,
+        message:"success"
+    })
+    } catch (error) {
+        console.log(error.message)
+        res.status(404).json({
+            status:appConst.status.fail,
+            response:null,
+            message:"failed!..."
+        })
+    }
+  };
 
-module.exports ={add,findEmp,findall,updateRecord,deleteRecord,bulkDataCreation,bulkUpdateRecords}
+module.exports ={add,findEmp,findall,updateRecord,deleteRecord,bulkDataCreation,bulkUpdateRecords,bulkDeleteRecords}
