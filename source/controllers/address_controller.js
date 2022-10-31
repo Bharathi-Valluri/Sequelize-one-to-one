@@ -1,24 +1,6 @@
 const address= require('../models/address')
 const person=require('../models/person')
 const appConst=require('../routers/constants')
-const addAddress = async(req,res) => {
-    try{
-    const resp =await address.create(req.body)
-    res.status(202).json({
-        status:appConst.status.success,
-        response:resp,
-        message:"SUCCESS"
-    })
-}catch(error){
-    console.log(error.message)
-    res.status(404).json({
-        status:appConst.status.fail,
-        response:null,
-        message:"failed!.."
-    })
-
-}
-}
 const findRecord =async(req,res) =>{
     try {
         const resp =await address.findOne({ id: req.params.id })
@@ -98,4 +80,4 @@ const deleteAddress=async(req,res)=>{
         message:err.message})
     }
 }
-module.exports ={addAddress,findRecord,findAllRecords,updateAddress,deleteAddress}
+module.exports ={findRecord,findAllRecords,updateAddress,deleteAddress}
