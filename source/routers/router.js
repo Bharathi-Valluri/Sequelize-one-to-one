@@ -12,5 +12,7 @@ router.delete('/deleterecord/:id',person.deleteRecord)
 router.delete('/deleteOneRecord/:id',address.deleteAddress)
 router.post('/saveBulkData',person.bulkDataCreation)
 router.put('/updateBulkPersonRecords',person.bulkUpdateRecords)
+router.put('/updateBulkAddress',address.bulkUpdateAddress)
 router.delete('/deleteBulkRecord',person.bulkDeleteRecords)
+router.delete('/deleteAllBulkAddress',address.bulkAddressDelete)
 module.exports = router

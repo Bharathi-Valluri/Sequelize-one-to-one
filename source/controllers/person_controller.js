@@ -128,11 +128,23 @@ const updateRecord =async(req,res) =>{
   }
   const bulkUpdateRecords = async (req,res) =>{
     try {
-        const resp = await Person.bulkCreate(req.body, {
-            upsertKeys: [{ id: req.body.id }],
-      
-            updateOnDuplicate: ["firstName","lastName","email"],
-          })
+        var resp;
+
+        const persons = req.body;
+    
+        for (let i = 0; i <= persons.length - 1; i++) {
+    
+          resp = await Person.update(persons[i], {
+    
+            where: {
+    
+              id: persons[i].id,
+    
+            },
+    
+          });
+    
+        }
         res.status(202).json({
             status:appConst.status.success,
             response:resp,
@@ -150,9 +162,15 @@ const updateRecord =async(req,res) =>{
   }
   const bulkDeleteRecords = async (req, res) => {
     try {
-      const resp=await Person.destroy({where:{
-  
-      }})
+        var resp;
+        const persons = req.body;        
+        for (let i = 0; i <= persons.length - 1; i++) {        
+        resp = await Person.destroy({        
+        where: {        
+        id: persons[i].id,        
+        },        
+        });
+        }
       res.status(202).json({
         status:appConst.status.success,
         response:resp,

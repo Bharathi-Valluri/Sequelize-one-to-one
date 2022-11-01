@@ -80,4 +80,57 @@ const deleteAddress=async(req,res)=>{
         message:err.message})
     }
 }
-module.exports ={findRecord,findAllRecords,updateAddress,deleteAddress}
+
+  const bulkUpdateAddress = async (req,res) =>{
+    try {
+        var resp;
+        const addresses = req.body;    
+        for (let i = 0; i <= addresses.length - 1; i++) {    
+          resp = await address.update(addresses[i], {    
+            where: {    
+              id: addresses[i].id,    
+            },    
+          });
+    
+        }
+        res.status(202).json({
+            status:appConst.status.success,
+            response:resp,
+            message:"success"
+        })
+    } catch (error) {
+        console.log(error.message)
+        res.status(404).json({
+            status:appConst.status.fail,
+            response:null,
+            message:"failed!..."
+        })
+        
+    }
+  }
+  const bulkAddressDelete = async (req, res) => {
+    try {
+        var resp;
+        const addresses = req.body;        
+        for (let i = 0; i <= addresses.length - 1; i++) {        
+        resp = await address.destroy({        
+        where: {        
+        id: addresses[i].id,        
+        },        
+    });
+    }
+      res.status(202).json({
+        status:appConst.status.success,
+        response:resp,
+        message:"success"
+    })
+    } catch (error) {
+        console.log(error.message)
+        res.status(404).json({
+            status:appConst.status.fail,
+            response:null,
+            message:"failed!..."
+        })
+    }
+  };
+module.exports ={findRecord,findAllRecords,updateAddress,deleteAddress,bulkUpdateAddress,bulkAddressDelete}
